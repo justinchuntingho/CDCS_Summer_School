@@ -217,6 +217,7 @@ for (i in GermanPageLinks[1:4]){ # Here we only scrape page 1 to 4 (to save time
   GermanTopics <- c(GermanTopics, new_text)
 }
 
+
 ### Exercise 2:-----------
 
 # 1. Pick another website, in any other language than English.

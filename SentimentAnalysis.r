@@ -4,24 +4,18 @@
 
 # Install 
 install.packages("tidyverse")
-install.packages("tm")
 install.packages("quanteda")
 install.packages("wordcloud")
 install.packages("syuzhet")
 install.packages("lubridate")
 install.packages('quanteda.textmodels')
-install.packages('quanteda.sentiment')
+install.packages("devtools")
 
 # if the installation of quanteda.sentiment fails you will need to do it via devtools
-install.packages("devtools")
-library(devtools)
 devtools::install_github("quanteda/quanteda.sentiment")
-devtools::install_github("quanteda/quanteda.textmodels") 
-
 
 # Load
 library(tidyverse)
-library(tm)
 library(quanteda)
 library(wordcloud)
 library(syuzhet)
@@ -38,9 +32,7 @@ news_df$datetime <- as.POSIXct(news_df$date, format = "%d %B %Y %H:%M")
 news_df <- filter(news_df, datetime > "2016-01-01")
 
 # View
-news_df 
-
-## The quanteda approach =====
+head(news_df )
 
 # First we need to tokenize our object 
 news_tokens <- news_df %>% 
@@ -61,9 +53,8 @@ lengths(data_dictionary_LSD2015)
 data_dictionary_LSD2015
 
 # We set the positive and negative words, so we can calculate polarity scores
-polarity(data_dictionary_LSD2015) <- 
-  list(pos = c("positive", "neg_negative"), neg = c("negative", "neg_positive"))
-
+polarity(data_dictionary_LSD2015) <- list(pos = c("positive", "neg_negative"), 
+                                          neg = c("negative", "neg_positive"))
 
 # Now we can calculate the polarity of each text in toks, to get a sense of how positive vs negative each text is
 news_polarity <- textstat_polarity(news_tokens, data_dictionary_LSD2015)
@@ -85,14 +76,13 @@ df_wsentiment %>% slice_max(order_by = sentiment, n = 10) %>% View()
 # What are the most depressing articles?
 df_wsentiment %>% slice_min(order_by = sentiment, n = 10) %>% View()
 
-
 # Sentiment by hour?
 df_wsentiment$hour <- hour(df_wsentiment$datetime)
 
 ggplot(df_wsentiment, aes(hour, sentiment, color = as.factor(hour))) +
   geom_jitter(alpha = 0.3)
 
-
+# Trend over years?
 plot_df <- df_wsentiment %>% 
   mutate(date = floor_date(datetime, "week")) %>% 
   group_by(date) %>% 
