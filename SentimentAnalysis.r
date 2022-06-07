@@ -27,6 +27,8 @@ library(quanteda.sentiment)
 
 
 # Load our data =====
+download.file("https://raw.githubusercontent.com/justinchuntingho/CDCS_Summer_School/master/data/news.csv", "data/news.csv", mode = 'wb')
+
 news_df <- read.csv("data/news.csv")
 news_df$datetime <- as.POSIXct(news_df$date, format = "%d %B %Y %H:%M")
 news_df <- filter(news_df, datetime > "2016-01-01")

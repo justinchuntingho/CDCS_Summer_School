@@ -6,3 +6,4 @@ CDCS_WebScraping.Rproj
 .DS_Store
 extra_sentiment_analysis.R
 extra_webscraping.R
+data/news_bkup.csv
